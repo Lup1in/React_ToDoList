@@ -18,26 +18,40 @@ export default class main extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { tarefas } = this.state;
+    const { tarefas, index } = this.state;
     let { novaTarefa } = this.state;
     novaTarefa = novaTarefa.trim();
     if (tarefas.indexOf(novaTarefa) !== -1) return;
 
     const novasTarefas = [...tarefas];
+    if (index === -1) {
+      this.setState({
+        tarefas: [...novasTarefas, novaTarefa],
+        novaTarefa: '',
+        index: -1,
+      });
+    } else {
+      novasTarefas[index] = novaTarefa;
+      this.setState({
+        tarefas: [...novasTarefas],
+        index: -1,
+      });
+    }
+  };
+
+  handleEdit = (e, index) => {
+    const { tarefas } = this.state;
     this.setState({
-      tarefas: [...novasTarefas, novaTarefa],
+      index,
+      novaTarefa: tarefas[index],
     });
   };
 
-  /* handleEdit = (e, index) => {
-
-  };
-  */
-
   handleDelete = (e, index) => {
     const { tarefas } = this.state;
-    const { novasTarefas } = [...tarefas];
+    const novasTarefas = [...tarefas];
     novasTarefas.splice(index, 1);
+
     this.setState({
       tarefas: [...novasTarefas],
     });
