@@ -3,11 +3,44 @@ import React, { Component } from 'react';
 // Form
 import { FaPlus } from 'react-icons/fa';
 
+// Tarefas
+import { FaEdit, FaWindowClose } from 'react-icons/fa';
+
 import './main.css';
 
 export default class main extends Component {
   state = {
     novaTarefa: '',
+    tarefas: [
+
+    ],
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const { tarefas } = this.state;
+    let { novaTarefa } = this.state;
+    novaTarefa = novaTarefa.trim();
+    if (tarefas.indexOf(novaTarefa) !== -1) return;
+
+    const novasTarefas = [...tarefas];
+    this.setState({
+      tarefas: [...novasTarefas, novaTarefa],
+    });
+  };
+
+  /* handleEdit = (e, index) => {
+
+  };
+  */
+
+  handleDelete = (e, index) => {
+    const { tarefas } = this.state;
+    const { novasTarefas } = [...tarefas];
+    novasTarefas.splice(index, 1);
+    this.setState({
+      tarefas: [...novasTarefas],
+    });
   };
 
   handleChange = (e) => {
@@ -17,17 +50,34 @@ export default class main extends Component {
   };
 
   render() {
-    const { novaTarefa } = this.state;
+    const { novaTarefa, tarefas } = this.state;
     return (
       <div className="main">
         <h1>Lista de Tarefas</h1>
 
-        <form action="#" className="form">
+        <form onSubmit={this.handleSubmit} action="#" className="form">
           <input onChange={this.handleChange} type="text" value={novaTarefa} />
           <button type="submit">
-            <FaPlus />
+            <FaPlus className="plus" />
           </button>
         </form>
+        <ul className="tarefas">
+          {tarefas.map((tarefa, index) => (
+            <li key={tarefa}>
+              {tarefa}
+              <span>
+                <FaEdit
+                  onClick={(e) => this.handleEdit(e, index)}
+                  className="edit"
+                />
+                <FaWindowClose
+                  onClick={(e) => this.handleDelete(e, index)}
+                  className="delete"
+                />
+              </span>
+            </li>
+          ))}
+        </ul>
       </div>
     );
   }

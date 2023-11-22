@@ -27,6 +27,7 @@ module.exports = {
     "react/no-unused-state": "off",
     "react/state-in-constructor": "off",
     "jsx-a11y/control-has-associated-label": "off",
-    "import/no-extraneous-dependencies": "off"
+    "import/no-extraneous-dependencies": "off",
+    "import/no-duplicates": "off"
   },
 };
